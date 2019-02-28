@@ -1,0 +1,45 @@
+package com.company;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("               Enter Your Code");
+        System.out.println("         ----------------------------");
+
+        while (true) {
+            String str = scanner.nextLine();
+
+            if (str.equals("exit")) {
+                break;
+            }
+
+            System.out.println("The Result  " + deleteComments(str));
+            System.out.println("---------");
+        }
+    }
+
+    public static String deleteComments(String myString) {
+        String newString = "";
+        String[] stringParts = myString.split("\"");
+
+        for (int i = 0; i < stringParts.length; i++) {
+
+            if ((i & 1) == 0) {
+                Pattern commentaryPattern = Pattern.compile("(/\\*((.|\n)*?)\\*/)|//.*");
+
+                Matcher m = commentaryPattern.matcher(stringParts[i]);
+
+                newString += m.replaceAll("*_*");
+            } else {
+                newString += "\"" + stringParts[i] + "\"";
+            }
+        }
+        return newString;
+    }
+}
